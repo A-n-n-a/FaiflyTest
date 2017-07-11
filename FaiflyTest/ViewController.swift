@@ -14,6 +14,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var countries = [NSManagedObject]()
     var country = NSManagedObject()
     
+    var countryAndCities = CountryAndCities(countryName: "", citiesList: [""])
+    
     var tempCountries = ["France", "Spain"]
     var tempCities = ["Paris","Marcelle"] //, ["Madrid", "Barcelona"]]
     
@@ -21,12 +23,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
-//        country.setValue("France", forKeyPath: "name")
-//        country.setValue(["Paris", "Marcelle"], forKeyPath: "cities")  
-        //save(name: "Ukraine")
-        
+        // json parsing
         let url = URL(string: "https://raw.githubusercontent.com/David-Haim/CountriesToCitiesJSON/master/countriesToCities.json")
         
         do {
@@ -34,7 +31,29 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! NSDictionary//[String: Any]
             tempCountries = Array(json.allKeys) as! [String]
             print(tempCountries)
-//            let result = json[resultsString] as! [[String:AnyObject]]
+            for i in tempCountries {
+                countryAndCities =  CountryAndCities(countryName: i, citiesList: json[i])
+            }
+            
+        }
+        catch {
+            print(error)
+        }
+
+        
+        
+        //storing core data
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+        let context = appDelegate.persistentContainer.viewContext
+
+        let entity = NSEntityDescription.insertNewObject(forEntityName: "Country", into: context)
+        
+        entity.setValue(<#T##value: Any?##Any?#>, forKey: "name")    //("France", forKeyPath: "name")
+//        country.setValue(["Paris", "Marcelle"], forKeyPath: "cities")  
+        //save(name: "Ukraine")
+        
+        //            let result = json[resultsString] as! [[String:AnyObject]]
 //            
 //            removeDataFromFirebase(isSearching: isSearching)
 //            
@@ -54,10 +73,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //                saveDataToFirebase(text: recipesItem, isSearching: isSearching)
             
             //}
-        }
-        catch {
-            print(error)
-        }
+        
 
         
         //JSON Open Weather Map with SwiftyJSON
