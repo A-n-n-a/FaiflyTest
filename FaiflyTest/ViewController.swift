@@ -36,8 +36,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! NSDictionary//[String: Any]
             countriesFromJson = Array(json.allKeys) as! [String]
             sortedCountries = countriesFromJson.sorted()
-            print(sortedCountries)
-            print(sortedCountries.count)
+            //print(sortedCountries)
+            //print(sortedCountries.count)
             let dictionary = json as! [String:AnyObject]
             
             for i in sortedCountries {
@@ -57,19 +57,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
         let context = appDelegate.persistentContainer.viewContext
 
-//        let entity = NSEntityDescription.insertNewObject(forEntityName: "Country", into: context)
-//        
+        
+//        var n = 1
 //        for i in countriesArray {
+//            let entity = NSEntityDescription.insertNewObject(forEntityName: "Country", into: context)
 //            entity.setValue(i.countryName, forKey: "name")
 //            entity.setValue(i.citiesList, forKey: "cities")
+//            
+//            do {
+//                try context.save()
+//                print("SAVED")
+//                print(n)
+//            } catch {
+//                print("ERROR: \(error)")
+//            }
+//            n += 1
 //        }
-//        
-//        do {
-//            try context.save()
-//            print("SAVED")
-//        } catch {
-//            print("ERROR: \(error)")
-//        }
+        
+        
         
         // getting data from core data
         
@@ -80,16 +85,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let results = try context.fetch(request)
             if results.count > 0 {
                 for result in results {
-                    if let countryName = (result as AnyObject).value(forKey: "name") as? String {
-                        //print(countryName)
-                        countriesFromCoreData.append(countryName)
-                        
-                    }
-                    if let citiesList = (result as AnyObject).value(forKey: "cities") as? [String] {
-                        //print(citiesList)
-                        citiesFromCoreData.append(citiesList)
-                        
-                    }
+                    // delete all data from core data if needed
+                    //context.delete(result as! NSManagedObject)
+//                    if let countryName = (result as AnyObject).value(forKey: "name") as? String {
+//                        //print(countryName)
+//                        countriesFromCoreData.append(countryName)
+//                        
+//                    }
+//                    if let citiesList = (result as AnyObject).value(forKey: "cities") as? [String] {
+//                        print("EACH CITYLIST COUNT: \(citiesList.count)")
+//                        citiesFromCoreData.append(citiesList)
+//                        
+//                    }
                 }
             }
         } catch {
