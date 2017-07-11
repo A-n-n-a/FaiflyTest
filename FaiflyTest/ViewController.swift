@@ -15,6 +15,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var country = NSManagedObject()
     
     var countryAndCities = CountryAndCities(countryName: "", citiesList: [""])
+    var countriesArray = [CountryAndCities]()
     
     var tempCountries = ["France", "Spain"]
     var tempCities = ["Paris","Marcelle"] //, ["Madrid", "Barcelona"]]
@@ -31,8 +32,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! NSDictionary//[String: Any]
             tempCountries = Array(json.allKeys) as! [String]
             print(tempCountries)
+            let dictionary = json as! [String:AnyObject]
+            
             for i in tempCountries {
-                countryAndCities =  CountryAndCities(countryName: i, citiesList: json[i])
+                countryAndCities =  CountryAndCities(countryName: i, citiesList: dictionary[i] as! [String])
+                countriesArray.append(countryAndCities)
             }
             
         }
@@ -49,7 +53,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
         let entity = NSEntityDescription.insertNewObject(forEntityName: "Country", into: context)
         
-        entity.setValue(<#T##value: Any?##Any?#>, forKey: "name")    //("France", forKeyPath: "name")
+        for i in countriesArray {
+            entity.setValue(i.countryName, forKey: "name")
+            entity.setValue(i.citiesList, forKey: "cities")
+        }
+        
+        do {
+            try context.save()
+            print("SAVED")
+        } catch {
+            print("ERROR: \(error)")
+        }
+           //("France", forKeyPath: "name")
 //        country.setValue(["Paris", "Marcelle"], forKeyPath: "cities")  
         //save(name: "Ukraine")
         
