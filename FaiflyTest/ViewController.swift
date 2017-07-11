@@ -17,7 +17,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var countryAndCities = CountryAndCities(countryName: "", citiesList: [""])
     var countriesArray = [CountryAndCities]()
     
-    var tempCountries = ["France", "Spain"]
+    var countriesFromJson = [String]()
+    var sortedCountries = [String]()
     var tempCities = ["Paris","Marcelle"] //, ["Madrid", "Barcelona"]]
     
 
@@ -30,11 +31,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         do {
             let data = try Data(contentsOf: url!)
             let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! NSDictionary//[String: Any]
-            tempCountries = Array(json.allKeys) as! [String]
-            print(tempCountries)
+            countriesFromJson = Array(json.allKeys) as! [String]
+            sortedCountries = countriesFromJson.sorted()
+            print(sortedCountries)
+            print(sortedCountries.count)
             let dictionary = json as! [String:AnyObject]
             
-            for i in tempCountries {
+            for i in sortedCountries {
                 countryAndCities =  CountryAndCities(countryName: i, citiesList: dictionary[i] as! [String])
                 countriesArray.append(countryAndCities)
             }
@@ -211,11 +214,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return tempCountries.count;
+        return sortedCountries.count;
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return tempCountries[row] //.value(forKey: "name") as! String
+        return sortedCountries[row] //.value(forKey: "name") as! String
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
