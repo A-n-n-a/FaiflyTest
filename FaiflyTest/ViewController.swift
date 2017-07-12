@@ -11,6 +11,8 @@ import CoreData
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate {
     
+    @IBOutlet weak var tableView: UITableView!
+    
     var countries = [NSManagedObject]()
     var country = NSManagedObject()
     
@@ -23,6 +25,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var countriesFromCoreData = [String]()
     var citiesFromCoreData = [[String]]() //, ["Madrid", "Barcelona"]]
+    
+    var citiesDisplayedArray = [String]()
     
 
     override func viewDidLoad() {
@@ -95,16 +99,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //                    
 //                    print(resultData)
                     
-//                    if let countryName = (result as AnyObject).value(forKey: "name") as? String {
-//                        //print(countryName)
-//                        countriesFromCoreData.append(countryName)
-//                        
-//                    }
-//                    if let citiesList = (result as AnyObject).value(forKey: "cities") as? [String] {
-//                        print("EACH CITYLIST COUNT: \(citiesList.count)")
-//                        citiesFromCoreData.append(citiesList)
-//                        
-//                    }
+                    
+                    
+                    // fetch data
+                    if let countryName = (result as AnyObject).value(forKey: "name") as? String {
+                        //print(countryName)
+                        countriesFromCoreData.append(countryName)
+                        
+                    }
+                    if let citiesList = (result as AnyObject).value(forKey: "cities") as? [String] {
+                        print("EACH CITYLIST COUNT: \(citiesList.count)")
+                        citiesFromCoreData.append(citiesList)
+                        
+                    }
                 }
 
             }
@@ -119,7 +126,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return citiesDisplayedArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -128,7 +135,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //let city = country.value(forKeyPath: "cities") as! [String]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = tempCities[indexPath.row]
+        cell.textLabel?.text = citiesDisplayedArray[indexPath.row]
         return cell
     }
     
@@ -173,15 +180,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return sortedCountries.count;
+        return countriesFromCoreData.count;
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return sortedCountries[row] //.value(forKey: "name") as! String
+        return countriesFromCoreData[row] //.value(forKey: "name") as! String
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-//        self.denomination = Int(pickerData[row])!
+        citiesDisplayedArray = citiesFromCoreData[row]
+        self.tableView.reloadData()
+        
+        //        self.denomination = Int(pickerData[row])!
 //        print(self.denomination)
     }
 
