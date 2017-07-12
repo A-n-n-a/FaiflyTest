@@ -52,12 +52,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
         
         
-        //storing core data
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
         let context = appDelegate.persistentContainer.viewContext
 
-        
+        // save data to Core Data
 //        var n = 1
 //        for i in countriesArray {
 //            let entity = NSEntityDescription.insertNewObject(forEntityName: "Country", into: context)
@@ -85,8 +85,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let results = try context.fetch(request)
             if results.count > 0 {
                 for result in results {
+                    
+                    
+                    
                     // delete all data from core data if needed
-                    //context.delete(result as! NSManagedObject)
+//                    let resultData = result as! NSManagedObject
+//                    context.delete(resultData)
+//                    try context.save()
+//                    
+//                    print(resultData)
+                    
 //                    if let countryName = (result as AnyObject).value(forKey: "name") as? String {
 //                        //print(countryName)
 //                        countriesFromCoreData.append(countryName)
@@ -98,6 +106,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //                        
 //                    }
                 }
+
             }
         } catch {
             print("Error: \(error)")
