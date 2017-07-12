@@ -22,7 +22,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PUH-VW-APL">
-                                <rect key="frame" x="0.0" y="64" width="375" height="150"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="150"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="ca6-DO-dVl"/>
                                 </constraints>
@@ -32,18 +32,18 @@
                                 </connections>
                             </pickerView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="n6u-JI-enZ">
-                                <rect key="frame" x="0.0" y="214" width="375" height="453"/>
+                                <rect key="frame" x="0.0" y="170" width="375" height="453"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="lBP-AL-rb7">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lBP-AL-rb7" id="E3t-C7-v4r">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="UFc-JC-Fuv" kind="push" id="4gt-ST-QNH"/>
+                                            <segue destination="UFc-JC-Fuv" kind="show" id="rqu-OS-sTa"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -87,16 +87,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="21R-Jm-5mJ">
-                                <rect key="frame" x="0.0" y="64" width="250" height="14.5"/>
+                                <rect key="frame" x="0.0" y="20" width="250" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="GUU-vd-m9f">
-                                <rect key="frame" x="0.0" y="78.5" width="375" height="544.5"/>
+                                <rect key="frame" x="0.0" y="34.5" width="375" height="588.5"/>
                             </mapView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jBj-1o-11q">
-                                <rect key="frame" x="250" y="64" width="125" height="100"/>
+                                <rect key="frame" x="250" y="20" width="125" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="125" id="7H6-cu-CW6"/>
                                     <constraint firstAttribute="height" constant="100" id="NlP-Mv-X8n"/>
@@ -117,13 +117,7 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="Cu7-vu-6Kt">
-                        <barButtonItem key="leftBarButtonItem" title="&lt;Back" id="Rtl-jC-7y3">
-                            <connections>
-                                <segue destination="BYZ-38-t0r" kind="show" id="hlh-FX-Xea"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="Cu7-vu-6Kt"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="labelTrailingConstraint" destination="smy-nq-fVQ" id="faf-FK-upH"/>
@@ -155,7 +149,4 @@
             <point key="canvasLocation" x="282" y="122"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="hlh-FX-Xea"/>
-    </inferredMetricsTieBreakers>
 </document>
