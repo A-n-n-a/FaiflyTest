@@ -11,6 +11,7 @@ import CoreData
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDataSource, UIPickerViewDelegate {
     
+    @IBOutlet weak var pickerView: UIPickerView!
     @IBOutlet weak var tableView: UITableView!
     
     var countries = [NSManagedObject]()
@@ -21,16 +22,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var countriesFromJson = [String]()
     var sortedCountries = [String]()
-    var tempCities = ["Paris","Marcelle"] //, ["Madrid", "Barcelona"]]
     
     var countriesFromCoreData = [String]()
     var citiesFromCoreData = [[String]]() //, ["Madrid", "Barcelona"]]
     
     var citiesDisplayedArray = [String]()
     
+    var selectedRow = UITableViewCell()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         // json parsing
         let url = URL(string: "https://raw.githubusercontent.com/David-Haim/CountriesToCitiesJSON/master/countriesToCities.json")
@@ -120,10 +123,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         print("COUNTRIES COUNT: \(countriesFromCoreData.count)")
         print("CITIES ARRAYS COUNT: \(citiesFromCoreData.count)")
-
+        
+        
+        
+        
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        pickerView.selectRow(1, inComponent: 0, animated: true)
+       citiesDisplayedArray = citiesFromCoreData[1]
 
+    }
+    
+    // TEBLE VIEW
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return citiesDisplayedArray.count
@@ -131,49 +143,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        //let country = countries[indexPath.row]
-        //let city = country.value(forKeyPath: "cities") as! [String]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         cell.textLabel?.text = citiesDisplayedArray[indexPath.row]
         return cell
     }
     
-//    func save(name: String) {
-//        
-//        guard let appDelegate =
-//            UIApplication.shared.delegate as? AppDelegate else {
-//                return
-//        }
-//        
-//        // 1
-//        let managedContext = appDelegate.persistentContainer.viewContext
-//        
-////        cityName = cities[indexPath.row]
-////        
-////        let cityAddingPercentEncoding = cityName.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed)
-//        
-//        
-//        
-//        // 2
-//        let entity =
-//            NSEntityDescription.entity(forEntityName: "Country",
-//                                       in: managedContext)!
-//        
-//        let country = NSManagedObject(entity: entity,
-//                                     insertInto: managedContext)
-//        
-//        // 3
-//        country.setValue(name, forKeyPath: "name")
-//        
-//        // 4
-//        do {
-//            try managedContext.save()
-//            countries.append(country)
-//        } catch let error as NSError {
-//            print("Could not save. \(error), \(error.userInfo)")
-//        }
-//    }
+    // PICKER
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -191,8 +167,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         citiesDisplayedArray = citiesFromCoreData[row]
         self.tableView.reloadData()
         
-        //        self.denomination = Int(pickerData[row])!
-//        print(self.denomination)
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destViewController = segue.destination as! CityDetailsViewController
+        
+        let selectedRowIndex = self.tableView.indexPathForSelectedRow
+        selectedRow = self.tableView.cellForRow(at: selectedRowIndex!)!
+        
+        destViewController.cityName = citiesDisplayedArray[(selectedRowIndex?.row)!]
+        
     }
 
 
