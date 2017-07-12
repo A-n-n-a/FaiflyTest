@@ -24,17 +24,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var sortedCountries = [String]()
     
     var countriesFromCoreData = [String]()
-    var citiesFromCoreData = [[String]]() //, ["Madrid", "Barcelona"]]
+    var citiesFromCoreData = [[String]]()
     
     var citiesDisplayedArray = [String]()
+    var currentCitiesArray = [String]()
     
     var selectedRow = UITableViewCell()
+    
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+       
         // json parsing
         let url = URL(string: "https://raw.githubusercontent.com/David-Haim/CountriesToCitiesJSON/master/countriesToCities.json")
         
@@ -63,7 +65,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let context = appDelegate.persistentContainer.viewContext
 
         // save data to Core Data
-//        var n = 1
+
 //        for i in countriesArray {
 //            let entity = NSEntityDescription.insertNewObject(forEntityName: "Country", into: context)
 //            entity.setValue(i.countryName, forKey: "name")
@@ -76,7 +78,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //            } catch {
 //                print("ERROR: \(error)")
 //            }
-//            n += 1
 //        }
         
         
@@ -94,22 +95,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     
                     
                     // delete all data from core data if needed
+                    
+                    
 //                    let resultData = result as! NSManagedObject
 //                    context.delete(resultData)
 //                    try context.save()
-//                    
-//                    print(resultData)
-                    
+//
                     
                     
                     // fetch data
                     if let countryName = (result as AnyObject).value(forKey: "name") as? String {
-                        //print(countryName)
+                        
                         countriesFromCoreData.append(countryName)
                         
                     }
                     if let citiesList = (result as AnyObject).value(forKey: "cities") as? [String] {
-                        print("EACH CITYLIST COUNT: \(citiesList.count)")
+                        
                         citiesFromCoreData.append(citiesList)
                         
                     }
@@ -119,17 +120,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } catch {
             print("Error: \(error)")
         }
-        print("COUNTRIES COUNT: \(countriesFromCoreData.count)")
-        print("CITIES ARRAYS COUNT: \(citiesFromCoreData.count)")
-        
-        
-        
         
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        pickerView.selectRow(1, inComponent: 0, animated: true)
-       citiesDisplayedArray = citiesFromCoreData[1]
+       
+            pickerView.selectRow(1, inComponent: 0, animated: true)
+            citiesDisplayedArray = citiesFromCoreData[1]
+      
 
     }
     
@@ -163,19 +161,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         citiesDisplayedArray = citiesFromCoreData[row]
+        currentCitiesArray = citiesFromCoreData[row]
         self.tableView.reloadData()
-        
     }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         let destViewController = segue.destination as! CityDetailsViewController
         
         let selectedRowIndex = self.tableView.indexPathForSelectedRow
         selectedRow = self.tableView.cellForRow(at: selectedRowIndex!)!
         
         destViewController.cityName = citiesDisplayedArray[(selectedRowIndex?.row)!]
-        
     }
 
 
