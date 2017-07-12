@@ -40,11 +40,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         do {
             let data = try Data(contentsOf: url!)
-            let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! NSDictionary//[String: Any]
+            let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! NSDictionary
             countriesFromJson = Array(json.allKeys) as! [String]
             sortedCountries = countriesFromJson.sorted()
-            //print(sortedCountries)
-            //print(sortedCountries.count)
             let dictionary = json as! [String:AnyObject]
             
             for i in sortedCountries {
