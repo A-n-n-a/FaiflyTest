@@ -74,7 +74,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //            do {
 //                try context.save()
 //                print("SAVED")
-//                print(n)
+
 //            } catch {
 //                print("ERROR: \(error)")
 //            }
@@ -125,8 +125,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     override func viewWillAppear(_ animated: Bool) {
        
-            pickerView.selectRow(1, inComponent: 0, animated: true)
-            citiesDisplayedArray = citiesFromCoreData[1]
+            pickerView.selectRow(0, inComponent: 0, animated: true)
+            citiesDisplayedArray = citiesFromCoreData[0]
       
 
     }
